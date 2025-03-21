@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"log"
 	"sheeva/config"
+
 	vault "github.com/hashicorp/vault/api"
 )
 
-type VaultClient struct{
+type VaultClient struct {
 	Client *vault.Client
 }
 
@@ -45,4 +46,24 @@ func (v *VaultClient) GetSecret(path string) (string,error) {
 		return "", err
 	}
 	return string(jsonData), nil
+}
+
+
+func (v *VaultClient) CreateSecret(path string, secret map[string]interface{}) error {
+	existing, err := v.Client.Logical().Read(path)
+	if err != nil {
+		return err
+	}
+	
+	if existing == nil {
+		_, err := v.Client.Logical().Write(path, secret)
+		if err != nil {
+			log.Printf("unable to write secret: %v in path: %s", err, path)
+			return err
+		}
+		return nil
+	}
+	
+	log.Printf("secret already exists in path: %s", path)
+	return fmt.Errorf("secret already exists in path: %s", path)
 }

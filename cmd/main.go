@@ -31,3 +31,19 @@ func main() {
 	log.Printf("Server running on port %s", port)
 	router.Run(":" + port)
 }
+
+// import (
+// 	"log"
+// 	"sheeva/cmd"
+// 	"sheeva/config"
+// 	"sheeva/internal/automation/ansible"
+// )
+
+// func main() {
+// 	cfg, err := config.LoadConfig()
+// 	if err != nil {
+// 		log.Fatalf("Error loading config: %v", err)
+// 	}
+
+// 	cmd.runAnsibleHandler(cfg)
+// }

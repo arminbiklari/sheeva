@@ -9,6 +9,6 @@ import (
 func SetupRoutes(router *gin.Engine, vaultClient *vault.VaultClient) {
 	h := handlers.NewHandler(vaultClient)
 
-	router.POST("/auth/token", h.AuthWithToken)
 	router.GET("/vault/*path", h.GetSecret)
+	router.POST("/vault/*path", h.SetSecret)
 }
